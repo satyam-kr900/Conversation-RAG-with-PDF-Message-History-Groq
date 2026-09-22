@@ -4,3 +4,6 @@ python-dotenv
 langchain_openai
 langchain-core
 streamlit
+langchain_groq
+faiss-cpu
+pypdf
