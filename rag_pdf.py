@@ -7,7 +7,7 @@ from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 from langchain_chroma import Chroma
-from langchain_ollama import OllamaEmbeddings
+from langchain_huggingface import HuggingFaceEmbeddings
 
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 
@@ -78,9 +78,9 @@ if api_key:
         )
         splits = splitter.split_documents(documents)
         # Ollama Embeddings
-        embeddings = OllamaEmbeddings(
-            model="nomic-embed-text"
-        )
+       embeddings = HuggingFaceEmbeddings(
+    model_name="sentence-transformers/all-MiniLM-L6-v2"
+)
         # Create Chroma Vector Store
         vector = Chroma.from_documents(
             documents=splits,
