@@ -86,11 +86,7 @@ if api_key:
         )
 
         # Create Chroma Vector Store
-        vector = Chroma.from_documents(
-            documents=splits,
-            embedding=embeddings,
-            persist_directory="./chroma_data"
-        )
+        vector = Chroma.from_documents(documents=splits,embedding=embeddings,collection_name="pdf_rag_384")
 
         # Retriever
         retriever = vector.as_retriever()
