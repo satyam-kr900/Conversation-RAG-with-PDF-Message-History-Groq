@@ -8,3 +8,4 @@ langchain_groq
 faiss-cpu
 pypdf
 langchain-chroma
+langchain-ollama
