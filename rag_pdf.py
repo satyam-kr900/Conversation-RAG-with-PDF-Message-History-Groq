@@ -78,9 +78,7 @@ if api_key:
         )
         splits = splitter.split_documents(documents)
         # Ollama Embeddings
-       embeddings = HuggingFaceEmbeddings(
-    model_name="sentence-transformers/all-MiniLM-L6-v2"
-)
+       embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
         # Create Chroma Vector Store
         vector = Chroma.from_documents(
             documents=splits,
