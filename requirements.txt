@@ -9,3 +9,5 @@ faiss-cpu
 pypdf
 langchain-chroma
 langchain-ollama
+langchain-huggingface
+sentence-transformers
