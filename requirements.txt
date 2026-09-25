@@ -11,3 +11,5 @@ langchain-chroma
 langchain-ollama
 langchain-huggingface
 sentence-transformers
+torch
+torchvision
