@@ -71,22 +71,30 @@ if api_key:
         # Load PDF
         loader = PyPDFLoader(temp_pdf)
         documents = loader.load()
+
         # Split documents
         splitter = RecursiveCharacterTextSplitter(
             chunk_size=2000,
             chunk_overlap=200
         )
+
         splits = splitter.split_documents(documents)
+
         # Ollama Embeddings
-       embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
+        embeddings = HuggingFaceEmbeddings(
+            model_name="sentence-transformers/all-MiniLM-L6-v2"
+        )
+
         # Create Chroma Vector Store
         vector = Chroma.from_documents(
             documents=splits,
             embedding=embeddings,
             persist_directory="./chroma_data"
         )
+
         # Retriever
         retriever = vector.as_retriever()
+
         # History Aware Retriever
         contextualize_system_prompt = """
         Given a chat history and the latest user question,
@@ -103,13 +111,14 @@ if api_key:
                 ("human", "{input}")
             ]
         )
+
         history_aware_retriever = create_history_aware_retriever(
             model,
             retriever,
             contextualize_prompt
         )
+
         # Question Answering Chain
-        
 
         system_prompt = """
         You are a helpful AI assistant.
@@ -119,6 +128,7 @@ if api_key:
         Context:
         {context}
         """
+
         qa_prompt = ChatPromptTemplate.from_messages(
             [
                 ("system", system_prompt),
@@ -131,14 +141,14 @@ if api_key:
             model,
             qa_prompt
         )
+
         # Retrieval Chain
         retriever_chain = create_retrieval_chain(
             history_aware_retriever,
             document_chain
         )
-      
+
         # Chat History
-        
 
         def get_session_history(session_id):
 
@@ -150,7 +160,6 @@ if api_key:
 
             return st.session_state.store[session_id]
 
-
         # Runnable with Message History
 
         conversation_rag_chain = RunnableWithMessageHistory(
@@ -160,9 +169,8 @@ if api_key:
             history_messages_key="chat_history",
             output_messages_key="answer"
         )
-        
+
         # User Question
-        
 
         user_input = st.text_input(
             "Ask a Question about your PDF"
